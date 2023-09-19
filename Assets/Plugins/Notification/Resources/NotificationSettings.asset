@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70a6f75c0eed48a7a848f14de0f90243, type: 3}
   m_Name: NotificationSettings
   m_EditorClassIdentifier: 
-  ImageName: UnityLogo48x48.png
-  AudioName: UnrealBeep.wav
+  LogoFileName: UnityLogo48x48.png
+  AudioFileName: UnrealBeep.wav
   NotificationGuideName: Notification Guide.txt
   AudioPlayGuideName: Audio Play Guide.txt

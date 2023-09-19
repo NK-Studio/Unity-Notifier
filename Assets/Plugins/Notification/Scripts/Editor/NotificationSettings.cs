@@ -6,8 +6,8 @@ namespace NKStudio
     {
         private const string FileName = "NotificationSettings";
         
-        public string ImageName;
-        public string AudioName;
+        public string LogoFileName;
+        public string AudioFileName;
         public string NotificationGuideName;
         public string AudioPlayGuideName;
         
