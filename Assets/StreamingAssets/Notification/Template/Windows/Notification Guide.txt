@@ -1,0 +1,29 @@
+﻿$titleText = '$Your Project$'
+$bodyText = '$Inner Message$'
+$iconPath = '$Icon Path$'
+
+# Main script
+[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
+[Windows.UI.Notifications.ToastNotification, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
+[Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime] | Out-Null
+
+$APP_ID = '{6D809377-6AF0-444B-8957-A3773F02200E}\Unity\Hub\Editor\$Unity Version$\Editor\Unity.exe'
+
+$template = @"
+<toast>
+    <visual>
+        <binding template="ToastImageAndText03">
+            <text id="1">$titleText</text>
+            <text id="2">$bodyText</text>
+            <image id="1" placement="appLogoOverride" hint-crop="circle" src='$iconPath'/>
+        </binding>
+    </visual>
+    <audio silent="true"/>
+</toast>
+"@
+
+$xml = New-Object Windows.Data.Xml.Dom.XmlDocument
+$xml.LoadXml($template)
+$toast = New-Object Windows.UI.Notifications.ToastNotification $xml
+$toast.Tag = 'Unity'
+[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($APP_ID).Show($toast)

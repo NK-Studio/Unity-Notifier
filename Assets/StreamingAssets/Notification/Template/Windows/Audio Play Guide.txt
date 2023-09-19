@@ -1,0 +1,3 @@
+﻿$PlayWav=New-Object System.Media.SoundPlayer
+$PlayWav.SoundLocation='$AudioSound$'
+$PlayWav.playsync()
