@@ -59,9 +59,13 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
+*.app
+/Assets/Plugins/Notification/.Plugins/*.app
+
 
 # Crashlytics generated file
 crashlytics-build.properties
+*.DS_Store
 
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
