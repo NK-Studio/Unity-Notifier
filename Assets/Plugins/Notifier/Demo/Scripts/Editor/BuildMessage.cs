@@ -12,6 +12,8 @@ namespace NKStudio
         {
             Lightmapping.bakeCompleted += LightBakeComplete;
             Lightmapping.bakeStarted += LightBakeStart;
+            
+            //베이커리 에셋 사용시 활성화 됨
 #if UNITY_EDITOR_WIN && BAKERY_INCLUDED
             ftRenderLightmap.OnPreFullRender += (sender, args) =>
             {
@@ -22,16 +24,17 @@ namespace NKStudio
 #endif
         }
 
-        [MenuItem("Tools/Light Bake Start")]
+        [MenuItem("Tools/Show Noti01")]
         private static void LightBakeStart()
         {
-            NotificationUtility.ShowNotificationWithAudio("Unity","알림","라이트맵 베이크를 시작합니다.");
+            // Notifier.Show("Unity","알림","라이트맵 베이크를 시작합니다."); // MacOS Only
+            Notifier.Show("알림","라이트맵 베이크를 시작합니다.");
         }
 
-        [MenuItem("Tools/Light Bake Complete")]
+        [MenuItem("Tools/Show Noti02")]
         private static void LightBakeComplete()
         {
-            NotificationUtility.ShowNotificationWithAudio("Unity","알림","라이트맵 베이크가 완료되었습니다.");
+            NotifierUtility.UniversalShow("Unity","알림","라이트맵 베이크가 완료되었습니다.");
         }
     }
 }

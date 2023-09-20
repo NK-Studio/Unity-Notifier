@@ -12,36 +12,37 @@ using System.IO;
 
 namespace NKStudio
 {
-    public static class Notification
+    public static class Notifier
     {
 #if UNITY_EDITOR_OSX
-       private static readonly string AppPath = $@"{Application.dataPath}\Plugins\Notification\.Plugins\unity-notifier.app";
-       private static readonly string AudioPath = $"{Application.dataPath}/Plugins/Notification/Audio/SFX/{NotificationSettings.Instance.AudioFileName}";
+        private static readonly string AppPath = $"{Application.dataPath}/Plugins/Notifier/.Plugins/unity-notifier.app";
+        private static readonly string AudioPath = $"{Application.dataPath}/Plugins/Notifier/Audio/SFX/{NotifierSettings.Instance.AudioFileName}";
 #endif
 
-#if UNITY_EDITOR_WIN
+#if UNITY_EDITOR_OSX
         /// <summary>
-        /// 알림 메세지를 띄웁니다.
-        /// </summary>
-        /// <param name="subTitle">부제목</param>
-        /// <param name="message">내용</param>
-        public static void ShowNotification(string subTitle, string message)
-#elif UNITY_EDITOR_OSX
-        /// <summary>
-        /// 알림 메세지를 띄웁니다.
+        /// 알림 메세지를 띄웁니다. (MacOS Only)
         /// </summary>
         /// <param name="title">메세지 타이틀</param>
         /// <param name="subTitle">부제목</param>
         /// <param name="message">내용</param>
-        public static void ShowNotification(string title, string subTitle, string message)
+        /// <param name="audioPlay">오디오를 재생합니다.</param>
+        public static void Show(string title, string subTitle, string message, bool audioPlay = true)
+#elif UNITY_EDITOR_WIN
+        /// <summary>
+        /// 알림 메세지를 띄웁니다.
+        /// </summary>
+        /// <param name="subTitle">부제목</param>
+        /// <param name="message">내용</param>
+        public static void Show(string subTitle, string message, bool audioPlay = true)
 #endif
         {
 #if UNITY_EDITOR_WIN
             string notificationGuidPath =
-                $"Assets/Plugins/Notification/Scripts/Editor/Template/{NotificationSettings.Instance.NotificationGuideName}";
+                $"Assets/Plugins/Notifier/Scripts/Editor/Template/{NotificationSettings.Instance.NotificationGuideName}";
 
             string logoImagePath =
-                $"{Application.dataPath}/Plugins/Notification/Art/Textures/{NotificationSettings.Instance.LogoFileName}";
+                $"{Application.dataPath}/Plugins/Notifier/Art/Textures/{NotificationSettings.Instance.LogoFileName}";
 
             var commendGuide = AssetDatabase.LoadAssetAtPath<TextAsset>(notificationGuidPath);
             if (commendGuide)
@@ -64,6 +65,9 @@ namespace NKStudio
 #elif UNITY_EDITOR_OSX
             ExecuteCommendScript(title, subTitle, message);
 #endif
+
+            if (audioPlay)
+                PlayAudio();
         }
 
 #if UNITY_EDITOR_OSX
@@ -72,20 +76,26 @@ namespace NKStudio
         /// </summary>
         /// <param name="title">메세지 타이틀</param>
         /// <param name="message">내용</param>
-        public static void ShowNotification(string title, string message)
+        /// <param name="audioPlay">오디오를 재생합니다.</param>
+        public static void Show(string title, string message, bool audioPlay = true)
         {
             ExecuteCommendScript(title, message);
+
+            if (audioPlay)
+                PlayAudio();
         }
+#endif
+
         /// <summary>
-        /// 효과음을 재생합니다.
+        /// 오디오를 재생합니다.
         /// </summary>
-        public static void PlayAudio()
+        private static void PlayAudio()
         {
 #if UNITY_EDITOR_WIN
             string audioPlayGuidPath =
-                $"Assets/Plugins/Notification/Scripts/Editor/Template/{NotificationSettings.Instance.AudioPlayGuideName}";
+                $"Assets/Plugins/Notifier/Scripts/Editor/Template/{NotificationSettings.Instance.AudioPlayGuideName}";
             string audioPath =
-                $"{Application.dataPath}/Plugins/Notification/Audio/SFX/{NotificationSettings.Instance.AudioFileName}";
+                $"{Application.dataPath}/Plugins/Notifier/Audio/SFX/{NotificationSettings.Instance.AudioFileName}";
 
             TextAsset commendGuide = AssetDatabase.LoadAssetAtPath<TextAsset>(audioPlayGuidPath);
             if (commendGuide)
@@ -107,8 +117,6 @@ namespace NKStudio
                 Debug.LogError("오디오 파일이 존재하지 않습니다.");
 #endif
         }
-#endif
-
 
 #if UNITY_EDITOR_WIN
         private static void ExecuteCommendScript(string script)
@@ -136,15 +144,6 @@ namespace NKStudio
 
 #if UNITY_EDITOR_OSX
         /// <summary>
-        /// textKey : 실행할 명령어 
-        /// </summary>
-        private static void ExecuteCommendScript(string title, string subTitle, string message)
-        {
-            string arguments = $"-title '{title}' -subtitle '{subTitle}' -message '{message}' -ignoreDnD";
-            TriggerNotifier(AppPath, arguments);
-        }
-        
-        /// <summary>
         /// 타이틀과 메세지만 띄웁니다.
         /// </summary>
         /// <param name="title">제목</param>
@@ -156,14 +155,22 @@ namespace NKStudio
         }
 
         /// <summary>
+        /// textKey : 실행할 명령어 
+        /// </summary>
+        private static void ExecuteCommendScript(string title, string subTitle, string message)
+        {
+            string arguments = $"-title '{title}' -subtitle '{subTitle}' -message '{message}' -ignoreDnD";
+            TriggerNotifier(AppPath, arguments);
+        }
+
+        /// <summary>
         /// 알림을 트리거 합니다.
         /// </summary>
         /// <param name="appPath">앱 경로</param>
         /// <param name="arguments">인자 값</param>
         private static void TriggerNotifier(string appPath, string arguments)
         {
-            Process process = new()
-            {
+            Process process = new() {
                 StartInfo = new ProcessStartInfo {
                     FileName = $"{appPath}/Contents/MacOS/unity-notifier", // 실행 파일의 경로를 지정합니다.
                     Arguments = arguments,
@@ -181,7 +188,7 @@ namespace NKStudio
 #endif
     }
 
-    public static class NotificationUtility
+    public static class NotifierUtility
     {
         /// <summary>
         /// 알림 메세지를 띄웁니다.
@@ -191,31 +198,14 @@ namespace NKStudio
         /// <param name="title">제목</param>
         /// <param name="subTitle">부제목</param>
         /// <param name="message">내용</param>
-        public static void ShowNotification(string title, string subTitle, string message)
+        /// <param name="audioPlay">오디오를 재생합니다.</param>
+        public static void UniversalShow(string title, string subTitle, string message, bool audioPlay = true)
         {
 #if UNITY_EDITOR_WIN
-            Notification.ShowNotification(subTitle, message);
+            Notification.ShowNotification(subTitle, message, audioPlay);
 #elif UNITY_EDITOR_OSX
-            Notification.ShowNotification(title, subTitle, message);
+            Notifier.Show(title, subTitle, message, audioPlay);
 #endif
-        }
-
-        /// <summary>
-        /// 알림 메세지를 띄우고 사운드를 재생합니다.
-        /// 윈도우는 subTitle, message만 사용합니다.
-        /// 맥은 title, subTitle, message를 사용합니다.
-        /// </summary>
-        /// <param name="title">제목</param>
-        /// <param name="subTitle">부제목</param>
-        /// <param name="message">내용</param>
-        public static void ShowNotificationWithAudio(string title, string subTitle, string message)
-        {
-#if UNITY_EDITOR_WIN
-            Notification.ShowNotification(subTitle, message);
-#elif UNITY_EDITOR_OSX
-            Notification.ShowNotification(title, subTitle, message);
-#endif
-            Notification.PlayAudio();
         }
     }
 }
