@@ -13,9 +13,9 @@ namespace NKStudio
 
         private void Awake()
         {
-            _notifierAboutUXML = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Plugins/Notification/Scripts/Editor/About/NotifierAbout.uxml");
-            _notifierAboutUSS = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/Notification/Scripts/Editor/About/NotifierAbout.uss");
-            _packageJson = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Plugins/Notification/package.json");
+            _notifierAboutUXML = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Plugins/Notifier/Scripts/Editor/About/NotifierAbout.uxml");
+            _notifierAboutUSS = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/Notifier/Scripts/Editor/About/NotifierAbout.uss");
+            _packageJson = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Plugins/Notifier/package.json");
         }
 
         [MenuItem("Window/Notifier/About")]
