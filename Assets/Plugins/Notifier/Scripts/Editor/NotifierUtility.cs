@@ -14,7 +14,7 @@ namespace NKStudio
     public static class Notifier
     {
 #if UNITY_EDITOR_OSX
-        private static readonly string AppPath = $"{Application.dataPath}/Plugins/Notifier/.Plugins/unity-notifier.app";
+        private static readonly string AppPath = $"{Application.dataPath}/Plugins/Notifier/Plugins/unity-notifier.app";
         private static readonly string AudioPath = $"{Application.dataPath}/Plugins/Notifier/Audio/SFX/{NotifierSettings.Instance.AudioFileName}";
 #endif
 
