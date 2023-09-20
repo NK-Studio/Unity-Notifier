@@ -1,0 +1,8 @@
+{
+    "name": "com.nkstudio.notifier",
+    "displayName": "Notifier",
+    "version": "1.0.0",
+    "unity": "2021.3",
+    "description": "윈도우와 맥OS에서 알림센터으로부터 알림을 받습니다.",
+    "keywords": ["알림", "noti"]
+}
