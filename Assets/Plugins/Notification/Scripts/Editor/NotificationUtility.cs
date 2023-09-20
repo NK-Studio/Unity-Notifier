@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace NKStudio
     {
 #if UNITY_EDITOR_OSX
        private static readonly string AppPath = $@"{Application.dataPath}\Plugins\Notification\.Plugins\unity-notifier.app";
+       private static readonly string AudioPath = $"{Application.dataPath}/Plugins/Notification/Audio/SFX/{NotificationSettings.Instance.AudioFileName}";
 #endif
 
 #if UNITY_EDITOR_WIN
@@ -74,8 +76,6 @@ namespace NKStudio
         {
             ExecuteCommendScript(title, message);
         }
-#endif
-
         /// <summary>
         /// 효과음을 재생합니다.
         /// </summary>
@@ -101,9 +101,14 @@ namespace NKStudio
                 ExecuteCommendScript(commend);
             }
 #elif UNITY_EDITOR_OSX
-            Process.Start("afplay", $"{Application.dataPath}/Plugins/Notification/Audio/SFX/{NotificationSettings.Instance.AudioPlayGuideName}");
+            if (File.Exists(AudioPath))
+                Process.Start("afplay", AudioPath);
+            else
+                Debug.LogError("오디오 파일이 존재하지 않습니다.");
 #endif
         }
+#endif
+
 
 #if UNITY_EDITOR_WIN
         private static void ExecuteCommendScript(string script)
