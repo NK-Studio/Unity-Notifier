@@ -23,15 +23,13 @@ namespace NKStudio
             ftRenderLightmap.OnFinishedFullRender += (sender, args) => LightBakeComplete();
 #endif
         }
-
-        [MenuItem("Tools/Show Noti01")]
+        
         private static void LightBakeStart()
         {
             // Notifier.Show("Unity","알림","라이트맵 베이크를 시작합니다."); // MacOS Only
             Notifier.Show("알림","라이트맵 베이크를 시작합니다.");
         }
-
-        [MenuItem("Tools/Show Noti02")]
+        
         private static void LightBakeComplete()
         {
             NotifierUtility.UniversalShow("Unity","알림","라이트맵 베이크가 완료되었습니다.");
