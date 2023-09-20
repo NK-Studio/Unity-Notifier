@@ -63,7 +63,7 @@ namespace NKStudio
 #if UNITY_EDITOR_WIN
             helpBox.text = "윈도우는 타이틀 제목 변경이 번거롭습니다.";
 #elif UNITY_EDITOR_OSX
-            helpBox.text = "맥은 git을 사용할 때 gitIgnore에 다음과 같은 내용을 추가해야합니다.\n/Assets/Plugins/Notification/.Plugins/*.app";
+            helpBox.text = "이 에셋은 내부에 app프로그램이 존재하며\nIgnore에서 <b><i>*.app</i></b> 내용이 제거되어야합니다.";
 #endif
             _root.Add(macAndWindows);
             _root.Add(audioFileNameField);
@@ -75,20 +75,6 @@ namespace NKStudio
 
             _root.Add(space);
             _root.Add(helpBox);
-
-#if UNITY_EDITOR_OSX
-            helpBox.RegisterCallback<ClickEvent>(
-                evt => {
-                    if (evt.button == 0)
-                    {
-                        ClipboardCopy("/Assets/Plugins/Notification/.Plugins/*.app");
-                        Debug.Log("<b><i>/Assets/Plugins/Notification/.Plugins/*.app</i></b>가 Ignore가 복사되었습니다.");
-                    }
-                }
-            );
-
-            helpBox.tooltip = "마우스 클릭시 추가해야할 Ignore가 클립보드 복사됩니다.";
-#endif
         }
         
         public override VisualElement CreateInspectorGUI()
