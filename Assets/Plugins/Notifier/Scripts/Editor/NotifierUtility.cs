@@ -1,13 +1,12 @@
 using System.Diagnostics;
 using System.IO;
-using System.Text;
-using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 #if UNITY_EDITOR_WIN
+using System.Text;
+using UnityEditor;
 using System;
-using System.IO;
 #endif
 
 namespace NKStudio
@@ -39,10 +38,10 @@ namespace NKStudio
         {
 #if UNITY_EDITOR_WIN
             string notificationGuidPath =
-                $"Assets/Plugins/Notifier/Scripts/Editor/Template/{NotificationSettings.Instance.NotificationGuideName}";
+                $"Assets/Plugins/Notifier/Scripts/Editor/Template/{NotifierSettings.Instance.NotificationGuideName}";
 
             string logoImagePath =
-                $"{Application.dataPath}/Plugins/Notifier/Art/Textures/{NotificationSettings.Instance.LogoFileName}";
+                $"{Application.dataPath}/Plugins/Notifier/Art/Textures/{NotifierSettings.Instance.LogoFileName}";
 
             var commendGuide = AssetDatabase.LoadAssetAtPath<TextAsset>(notificationGuidPath);
             if (commendGuide)
@@ -93,9 +92,9 @@ namespace NKStudio
         {
 #if UNITY_EDITOR_WIN
             string audioPlayGuidPath =
-                $"Assets/Plugins/Notifier/Scripts/Editor/Template/{NotificationSettings.Instance.AudioPlayGuideName}";
+                $"Assets/Plugins/Notifier/Scripts/Editor/Template/{NotifierSettings.Instance.AudioPlayGuideName}";
             string audioPath =
-                $"{Application.dataPath}/Plugins/Notifier/Audio/SFX/{NotificationSettings.Instance.AudioFileName}";
+                $"{Application.dataPath}/Plugins/Notifier/Audio/SFX/{NotifierSettings.Instance.AudioFileName}";
 
             TextAsset commendGuide = AssetDatabase.LoadAssetAtPath<TextAsset>(audioPlayGuidPath);
             if (commendGuide)
@@ -202,7 +201,7 @@ namespace NKStudio
         public static void UniversalShow(string title, string subTitle, string message, bool audioPlay = true)
         {
 #if UNITY_EDITOR_WIN
-            Notification.ShowNotification(subTitle, message, audioPlay);
+            Notifier.Show(subTitle, message, audioPlay);
 #elif UNITY_EDITOR_OSX
             Notifier.Show(title, subTitle, message, audioPlay);
 #endif
