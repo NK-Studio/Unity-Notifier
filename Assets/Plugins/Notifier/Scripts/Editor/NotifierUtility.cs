@@ -7,6 +7,7 @@ using Debug = UnityEngine.Debug;
 using System.Text;
 using UnityEditor;
 using System;
+using System.Threading.Tasks;
 #endif
 
 namespace NKStudio
@@ -15,7 +16,8 @@ namespace NKStudio
     {
 #if UNITY_EDITOR_OSX
         private static readonly string AppPath = $"{Application.dataPath}/Plugins/Notifier/Plugins/unity-notifier.app";
-        private static readonly string AudioPath = $"{Application.dataPath}/Plugins/Notifier/Audio/SFX/{NotifierSettings.Instance.AudioFileName}";
+        private static readonly string AudioPath =
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                           $"{Application.dataPath}/Plugins/Notifier/Audio/SFX/{NotifierSettings.Instance.AudioFileName}";
 #endif
 
 #if UNITY_EDITOR_OSX
@@ -124,20 +126,23 @@ namespace NKStudio
 
             string scriptBase64Encoded = Convert.ToBase64String(byteArray);
 
-            Process process = new()
+            // 별도의 쓰레드에서 프로세스 실행
+            Task.Run(() =>
             {
-                StartInfo = new ProcessStartInfo()
+                var startInfo = new ProcessStartInfo()
                 {
                     FileName = "powershell.exe",
                     Arguments = $"-NoProfile -ExecutionPolicy unrestricted -EncodedCommand {scriptBase64Encoded}",
                     UseShellExecute = false,
                     CreateNoWindow = true
-                }
-            };
+                };
 
-            process.Start();
-            process.WaitForExit();
-            process.Close();
+                var process = new Process { StartInfo = startInfo };
+
+                process.Start();
+                process.WaitForExit();
+                process.Close();
+            });
         }
 #endif
 
@@ -169,20 +174,24 @@ namespace NKStudio
         /// <param name="arguments">인자 값</param>
         private static void TriggerNotifier(string appPath, string arguments)
         {
-            Process process = new() {
-                StartInfo = new ProcessStartInfo {
-                    FileName = $"{appPath}/Contents/MacOS/unity-notifier", // 실행 파일의 경로를 지정합니다.
-                    Arguments = arguments,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                }
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = $"{appPath}/Contents/MacOS/unity-notifier",
+                Arguments = arguments,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
             };
 
-            process.Start();
-            process.WaitForExit();
-            process.Close();
+            Task.Run(() =>
+            {
+                var process = new Process { StartInfo = startInfo };
+
+                process.Start();
+                process.WaitForExit();
+                process.Close();
+            });
         }
 #endif
     }
