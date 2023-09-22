@@ -1,4 +1,5 @@
 # Unity Notifier
+![image](https://github.com/NK-Studio/Unity-Notifier/assets/53283888/d1cf0b22-b1be-4b6e-90c8-040dcbfd0bdf)
 유니티에서 노티 알림을 띄웁니다.
 
 ### UnityPackage -> [UnityPackage](https://github.com/NK-Studio/Unity-Notifier/releases) 다운로드
