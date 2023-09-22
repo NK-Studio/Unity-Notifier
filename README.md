@@ -10,7 +10,7 @@ Platform Support
 # 주의사항
 ## Window
 1. 타이틀 이름을 쉽게 변경이 어렵습니다.
-2. ![image](https://github.com/NK-Studio/Unity-Notifier/assets/53283888/8f98dfaf-c9dd-460e-9eed-a0067b73f96b)
+![image](https://github.com/NK-Studio/Unity-Notifier/assets/53283888/8f98dfaf-c9dd-460e-9eed-a0067b73f96b)
 Notification Guide.txt에 보면 위와 같은 내용들이 있습니다.
 `6D809377-6AF0-444B-8957-A3773F02200E` 는 **Program Files를 의미**합니다.
 **APP_ID는 알림을 받고 싶어하는 프로그램의  exe 경로를 지정하면 됩니다.**
