@@ -6,7 +6,7 @@
 
 Platform Support
 - Windows 10, 11
-- MacOS Ventura
+- MacOS Ventura, Sonoma
 
 # 주의사항
 ## Window
